@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Employee Management System</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">Employee Management System</a>
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/users/list}">User Management</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/roles/list}">Role Management</a>
+				</li>
+
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<h1>List Employees</h1>
+		</div>
+		<form action="/employees/search" class="form-inline">
+
+			<!-- Add a button -->
+			<a th:href="@{/employees/new}" class="btn btn-primary btn-sm mb-3">Add Employee</a>
+			<input type="search" name="firstName" placeholder="First Name" class="form-control-sm ml-5 mr-2 mb-3" />
+			<input type="search" name="lastName" placeholder="Last Name" class="form-control-sm mr-2 mb-3" />
+
+			<button type="submit" class="btn btn-success btn-sm mb-3">Search</button>
+			<a href="/logout" class="btn btn-primary btn-sm mb-3 mx-auto"> Logout </a>
+
+		</form>
+		<table class="table table-striped table-bordered">
+			<thead class="table-dark">
+				<tr>
+					<th>
+						Employee First Name<br>
+						<a th:href="@{/employees/getEmployeesSortedByFirstName/{dir}(dir=ASC)}">Asc</a>
+						<a th:href="@{/employees/getEmployeesSortedByFirstName/{dir}(dir=DESC)}">Desc</a>
+						<a th:href="@{/employees/list}">Normal</a>
+					</th>
+					<th>Employee Last Name</th>
+					<th>Employee Email</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="employee: ${employees}">
+					<td th:text="${employee.firstName}"></td>
+					<td th:text="${employee.lastName}"></td>
+					<td th:text="${employee.email}"></td>
+					<td><a th:href="@{/employees/view/{id}(id=${employee.id})}" class="btn btn-primary">view</a>
+						<a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
+						<a th:href="@{/employees/{id}(id=${employee.id})}" class="btn btn-danger"
+							onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>
